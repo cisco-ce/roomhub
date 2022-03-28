@@ -1,0 +1,46 @@
+{
+  "lightsIgor": {
+    "gateway": "http://address-to-igor-host",
+    "key": "igor-key"
+  },
+  "lightsMolex": {
+    "host": "http://address-to-molex-hos",
+    "projectId": "long-molex-id",
+    "token": "molex-token="
+  },
+  "lightsHue": {
+    "host": "http://addresss-to-hue-bridge",
+    "token": "hue-token"
+  },
+  "shadesSolartrac": {
+    "host": "http://address-to-solartrac-host"
+  },
+  "facilityBot": {
+    "token": "bot-token",
+    "roomId": "space-id-report-issues"
+  },
+  "devices": [
+    {
+      "device": "WZS2547K012",
+      "room": "NYC1-9-MANHATTAN",
+      "lights": {
+        "type": "igor",
+        "zone": 3
+      },
+      "shades": {
+        "zones": [
+          "01",
+          "20"
+        ]
+      }
+    },
+    {
+      "device": "FDO224416LZ",
+      "room": "NYC1-9-LIBERTY",
+      "lights": {
+        "type": "igor",
+        "zone": 5
+      }
+    }
+  ]
+}

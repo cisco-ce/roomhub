@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://unpkg.com/alpinejs@3.9.1/dist/cdn.min.js" defer></script>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="mobile.css" media="screen and (max-width: 600px)">
+  <title>Room Hub Simulator</title>
+</head>
+<body x-data="dataModel">
+  <header>
+    <h1>webex</h1>
+    <div class="app-name">Room Hub Simulator</div>
+  </header>
+  <div>
+    <template x-for="deviceId in Object.keys(devices)">
+      <div class="page">
+        <span x-text="deviceId"></span>
+        <b x-text="devices[deviceId]"></b>
+      </div>
+    </template>
+    <div x-show="devices.length < 1">(No fake devices found)</div>
+  </div>
+</body>
+
+<script>
+const dataModel = {
+  devices: [],
+  init() {
+    this.timer = setInterval(() => this.update(), 2000);
+  },
+  async update() {
+    const json = await fetch('/api/fake/');
+    this.devices = await json.json();
+  },
+}
+
+</script>
+</html>

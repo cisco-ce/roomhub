@@ -1,0 +1,238 @@
+* {
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: 'CiscoSansThin';
+  src: url('./assets/CiscoSansThin.otf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'CiscoSansLight';
+  src: url('./assets/CiscoSansTTLight.woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'CiscoSansRegular';
+  src: url('./assets/CiscoSansTTRegular.woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: CiscoSansLight;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f7f7f7;
+}
+
+header {
+  width: 100%;
+  background: black;
+  padding: 1em;
+  color: white;
+  display: flex;
+  align-items: baseline;
+}
+
+header h1 {
+  font-size: 2em;
+  margin: 0 0.5em;
+  font-weight: normal;
+}
+
+h2 {
+  font-size: 1.2em;
+}
+
+#edit-config {
+  width: 100%;
+  height: 20em;
+}
+
+.add-room {
+  display: none;
+}
+
+.page {
+  margin: 1em;
+  padding: 1em;
+  background-color: white;
+  color: #545454;
+  border-radius: 4px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+  width: 80%;
+  border: 1px solid #eee;
+}
+
+.selected {
+  font-weight: bold;
+}
+
+header .selected {
+  color: #0ac;
+}
+
+#room-events {
+  max-height: 20em;
+  overflow-y: auto;
+  background-color: white;
+}
+
+header ul {
+  display: flex;
+  margin: 0 1em;
+}
+
+header li {
+  list-style-type: none;
+  margin-right: 1em;
+  cursor: pointer;
+}
+
+.error, .pending, .ok, .notok, .unknown {
+  color: white;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 0.8em;
+  border-radius: 0.3em;
+}
+
+.unknown {
+  background-color: rgb(122, 122, 122);
+}
+
+.error {
+  background-color: rgb(136, 23, 23);
+}
+
+.notok {
+  background-color: #f7644a;
+}
+
+.pending {
+  background-color: #d97f00;
+}
+
+.ok {
+  background-color: #00ab50;
+}
+
+.inject, .log-details {
+  width: 100%;
+  margin: 1em 0;
+  height: 5em;
+}
+
+.room-event {
+  cursor: pointer;
+}
+
+tr:hover {
+  background-color: #ddd;
+}
+
+.log-details {
+  height: 10em;
+}
+
+a {
+  color: inherit;
+}
+
+button, input, textarea, select, option {
+  font-size: inherit;
+  font-family: inherit;
+}
+
+textarea, input, table, select {
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0.5em;
+}
+
+table {
+  padding: 0;
+  width: 100%;
+}
+
+tbody {
+  display: block;
+  width: 100%;
+  max-height: 400px;
+  overflow-y: scroll;
+}
+tr {
+  width: 100%;
+}
+th {
+  text-align: left;
+}
+
+td {
+  padding: 0.3em;
+  border-bottom: 1px solid #eee;
+}
+
+textarea {
+  font-size: 0.8em;
+  resize: vertical;
+}
+
+input {
+  margin: 0.5em 0;
+}
+
+label {
+  display: inline-block;
+  width: 200px;
+}
+
+button {
+  border-radius: 2em;
+  padding: 0.3em 2em;
+  border: 0;
+  cursor: pointer;
+  margin: 1em 0;
+  background: #eee;
+}
+
+button.primary {
+  color: white;
+  background: #007aa3;
+}
+
+button:hover {
+  filter: brightness(0.9);
+}
+
+button:active {
+  filter: brightness(0.8);
+}
+
+#room-events {
+  /* background-color: #eee */
+}
+
+details {
+  margin: 1em 0;
+}
+
+dialog {
+  background-color: white;
+  border-radius: 0.3em;
+  margin-top: 1em;
+  border: 1px solid #ccc;
+}
+

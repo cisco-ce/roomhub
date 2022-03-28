@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  manhattan:
+    build: .
+    volumes:
+      - ./configIT.json:/usr/src/app/config.json
+      - /home/ops/certs:/usr/src/app/server/certs
+    ports:
+      - 8080:8080

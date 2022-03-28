@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="util.js"></script>
+  <script src="index.js"></script>
+  <script src="https://unpkg.com/alpinejs@3.9.1/dist/cdn.min.js" defer></script>
+  <link rel="stylesheet" href="assets/momentum-ui-icons.min.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="mobile.css" media="screen and (max-width: 600px)">
+  <link rel="stylesheet" href="./">
+  <title>Room Hub</title>
+</head>
+<body x-data="dataModel">
+
+  <header>
+    <h1>webex</h1>
+    <div class="app-name">Room Hub</div>
+    <ul>
+      <template x-for="pageId in Object.keys(pages)">
+        <li @click="setPage(pageId)" x-text="pages[pageId]" :class="pageId === page && 'selected'"></li>
+      </template>
+      <!-- <li><button href="" @click="setPage('about')" >About</button></li>
+      <li><button href="" @click="setPage('log')">Log</button></li>
+      <li><button href="" @click="setPage('config')">Config</button></li>
+      <li><button href="" @click="setPage('docs')">Docs</button></li> -->
+    </ul>
+  </header>
+
+  <div class="page about" x-show="page === 'about'">
+    <h2>About</h2>
+
+    Room controls middelware controlling room peripherals in meeting rooms with Webex Devices.
+    <p />
+    Macros in Webex devices post UI events from the touch panels to this server, which then
+    controls the appropriate.
+  </div>
+
+  <div class="page log" x-show="page === 'log'">
+    <h2>Room Events</h2>
+    Shows incoming requests from video device, and outgoing requests to lights etc.<br/>
+    <input id="filter-events" placeholder="Filter events" @input="filterEvents" />
+    <table id="room-events">
+      <tbody>
+        <tr>
+          <th>Id</th>
+          <th>Dir</th>
+          <th>Time</th>
+          <th>Device</th>
+          <th>URL</th>
+          <th>Type</th>
+          <th>State</th>
+        </tr>
+        <template x-for="logEvent in filteredEvents.reverse()">
+          <tr
+            class="room-event"
+            :class="[logEvent.id === currentEvent?.id ? 'selected' : '']"
+            @click="showEventDetail(logEvent.id)"
+          >
+            <td x-text="'#' + logEvent.id"></td>
+            <td x-text="logEvent.direction === 'in' ? '➡️ IN' : '⬅️ OUT'"></td>
+            <td x-text="Util.formatTime(logEvent.time)"></td>
+            <td x-text="logEvent.device"></td>
+            <td x-text="Util.formatUrl(logEvent.request.url, 30)"></td>
+            <td x-text="logEvent.type"></td>
+            <td x-text="Util.logStatus(logEvent).text" :class="Util.logStatus(logEvent).state"></td>
+        </tr>
+        </template>
+        <tr x-show="!filteredEvents.length"><td>(No events to show)</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Log details</h2>
+    <textarea
+      class="log-details"
+      :value="currentEvent ? JSON.stringify(currentEvent, null, 2) : ''"
+      placeholder="Selected event details will appear here"
+      disabled
+    ></textarea>
+
+    <details>
+      <summary>Advanced...</summary>
+      Manually inject message:
+      <textarea class="inject">
+  { "device": "1234", "type": "lights", "level": 25 }</textarea>
+      <button @click="injectMessage()">Inject</button>
+      </details>
+  </div>
+
+  <div class="page config" x-show="page === 'config'">
+    <div x-show="!(config.devices && config.devices.length > 0)">
+      No rooms defined yet. Start adding rooms by tapping the button below
+    </div>
+
+    <table x-show="config.devices && config.devices.length > 0">
+      <tr>
+        <th>Serial number</th>
+        <th>Room name</th>
+        <th>Light type</th>
+        <th>Light zone</th>
+        <th>Shade zone</th>
+        <th>Actions</th>
+      </tr>
+      <template x-for="room in config.devices">
+      <tr>
+        <td x-text="room.device"></td>
+        <td x-text="room.room"></td>
+        <td x-text="room.lights?.type"></td>
+        <td x-text="room.lights?.zone"></td>
+        <td x-text="room.shades?.zones"></td>
+        <td>
+          <span class="icon icon-edit_16" @click="showEditRoom(room.device)"></span>
+          <span class="icon icon-delete_16" @click="deleteRoom(room.device)"></span>
+        </td>
+      </tr>
+      </template>
+    </table>
+
+    <button @click="showEditRoom()" class="primary">Add room...</button>
+    <div>
+      💡 Tip: Restart macro on device after changing room configuration to update the user interface on the video device.
+    </div>
+
+    <details>
+      <summary>
+        Advanced...
+      </summary>
+      <h2>Edit config JSON manually</h2>
+      <textarea id="edit-config" :value="JSON.stringify(config, null, 2)"></textarea>
+      <br/>
+      <button @click="saveConfig()">Save...</button>
+
+    </details>
+  </div>
+
+  <div class="page docs" x-show="page === 'docs'">
+    <h2>Device scripts</h2>
+    <ul>
+      <li><a download href="./macro/RoomController.js">Macro: Room Controller</a></li>
+      <li><a download href="./macro/shades.xml">UI Panel: Shades</a></li>
+      <li><a download href="./macro/lights.xml">UI Panel: Lights</a></li>
+      <li><a download href="./macro/report-issue.xml">UI Panel: Report Issues</a></li>
+    </ul>
+    <h2>Smart system API docs</h2>
+    <ul>
+      <li><a target="_blank" href="docs/ID-3133-Igor-Gateway-Software-API-Developer-Guide-5.7.0-2021-Rev.pdf">Igor Lights</a></li>
+      <li><a target="_blank" href="docs/lightsCoreSync_API_Guide_v6.2.10.2-molex.pdf">Molex Lights</a></li>
+      <li><a target="_blank" href="docs/ST4_API-solartrack-drapes.pdf">Solartrac Shades</a></li>
+      <li><a target="_blank" href="https://developer.webex.com">developer.webex.com (Report issues)</a></li>
+    </ul>
+  </div>
+
+  <dialog class="edit-room">
+    <h2>Configure room</h2>
+    <form class="form-edit-room" @submit.prevent="" >
+      <div>
+        <label>Video device</label>
+        <input id="serial-number" placeholder="Serial number (eg FOC2442PEFQ)" />
+      </div>
+      <div>
+        <label>Room Name</label>
+        <input id="room-name"/>
+      </div>
+      <div>
+        <label>Lights</label>
+        <select id="light-type">
+          <option value="none">None</option>
+          <option value="igor">Igor</option>
+          <option value="hue">Philips Hue</option>
+          <option value="molex">Molex</option>
+        </select>
+      </div>
+      <div>
+        <label>Light zone</label>
+        <input id="light-zone"/>
+      </div>
+      <div>
+        <label>Shade zones</label>
+        <input id="shade-zone"/> (comma separated)
+      </div>
+      <button class="primary" id="add-room" @click="saveRoom()">Save room</button>
+      <button @click="cancelDialog()">Cancel</button>
+    </form>
+  </dialog>
+
+</body>
+
+</html>

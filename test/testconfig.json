@@ -1,0 +1,34 @@
+{
+  "lightsIgor": {
+    "gateway": "http://igorlaksdjfklsdf.com",
+    "key": "123456789"
+  },
+  "lightsMolex": {
+    "host": "http://molex.com",
+    "projectId": "c8973ea6-9a40-437c-87ac-xxx",
+    "token": "mytoken="
+  },
+  "shadesSolartrac": {
+    "host": "http://solartrack"
+  },
+  "facilityBot": {
+    "token": "bottoken1234",
+    "roomId": "roomid1234"
+  },
+  "devices": [
+    {
+      "device": "device1234",
+      "room": "Test Room",
+      "lights": {
+        "type": "igor",
+        "zone": 3
+      },
+      "shades": {
+        "zones": [
+          "01",
+          "20"
+        ]
+      }
+    }
+  ]
+}

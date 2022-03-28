@@ -1,0 +1,17 @@
+{
+  "name": "roomhub",
+  "version": "1.0.0",
+  "description": "Room control middleware server for  smart buildings with Webex devices",
+  "main": "index.js",
+  "author": "Tore Bjolseth <tbjolse@cisco.com>",
+  "scripts": {
+    "start": "node server/server.js",
+    "test": "node test/test.js"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.2",
+    "express": "^4.17.3",
+    "node-fetch": "^2.6.7"
+  }
+}

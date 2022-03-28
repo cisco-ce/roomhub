@@ -1,0 +1,15 @@
+header h1 {
+  display: none;
+}
+
+header ul {
+  margin: 0;
+}
+
+textarea {
+  font-size: 0.5em;
+}
+
+.page {
+  margin: 1em 0;
+}
