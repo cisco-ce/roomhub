@@ -65,7 +65,11 @@
             <td x-text="logEvent.device"></td>
             <td x-text="Util.formatUrl(logEvent.request.url, 30)"></td>
             <td x-text="logEvent.type"></td>
-            <td x-text="Util.logStatus(logEvent).text" :class="Util.logStatus(logEvent).state"></td>
+            <td
+              x-text="Util.logStatus(logEvent).text"
+              :class="Util.logStatus(logEvent).state"
+              :title="logEvent.response && JSON.stringify(logEvent.response, null, 2)"
+            ></td>
         </tr>
         </template>
         <tr x-show="!filteredEvents.length"><td>(No events to show)</td></tr>
