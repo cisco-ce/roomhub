@@ -33,7 +33,7 @@ let issueCategory;
 let issueComment;
 
 async function send(data) {
-  const url = domain + '/api/command/';
+  const url = join(domain, '/api/command/');
   // console.log('send', url, data);
   data.device = serialNumber;
   data.ip = ip4;
@@ -46,6 +46,12 @@ async function send(data) {
       console.warn('Request failed');
       xapi.Command.UserInterface.Message.Alert.Display({ Text: 'RoomHub was not able to perform the requested action.', Duration: 5 });
     });
+}
+
+function join(url1, url2) {
+  const base = url1.endsWith('/') ? url1.slice(0, -1) : url1;
+  const end = url2.startsWith('/') ? url2 : '/' + url2;
+  return base + end;
 }
 
 function getHeader(password) {
@@ -103,7 +109,7 @@ async function removePanel(id) {
 }
 
 async function installUiExtensions() {
-  const url = domain + '/api/uiextensions/' + serialNumber;
+  const url = join(domain, '/api/uiextensions/' + serialNumber);
   const Header = password ? [getHeader(password)] : [];
 
   try {
@@ -226,7 +232,7 @@ async function init() {
 
   xapi.Event.UserInterface.Extensions.Widget.Action.on(onEvent);
   setInterval(ping, pingInterval);
-  ping();
+  await ping();
   xapi.event.on('UserInterface Assistant Notification Payload', onVoiceCommand);
   xapi.Event.UserInterface.Extensions.Panel.Clicked.on(onPanelClicked);
   xapi.Event.UserInterface.Message.Prompt.Response.on(onPromptResponse);
