@@ -7,7 +7,8 @@
  */
 import xapi from 'xapi';
 
-const domain = 'https://cdc-rtp-002.cisco.com:8080/';
+/** This is the url of the Room Hub server. Must be set. eg https://roomhub.acme.com:8080/ */
+const domain = '';
 const pingInterval = 1000 * 60 * 60;
 
 let serialNumber;
@@ -38,7 +39,10 @@ async function send(data) {
   const body = JSON.stringify(data);
   const Header = ['Content-Type: application/json'];
   return xapi.Command.HttpClient.Post({ Url: url, Header, AllowInsecureHTTPS: 'True' }, body)
-    .catch(e => console.warn('Request failed', e));
+    .catch(e => {
+      console.warn('Request failed');
+      xapi.Command.UserInterface.Message.Alert.Display({ Text: 'RoomHub was not able to perform the requested action.', Duration: 5 });
+    });
 }
 
 function onEvent(event) {
@@ -198,7 +202,16 @@ function onVoiceCommand(event) {
 }
 
 async function init() {
+  if (!domain) {
+    xapi.Command.UserInterface.Message.Alert.Display({ Text: 'RoomHub integration has not been configured yet.', Duration: 30 });
+    return;
+  }
   await xapi.Config.HttpClient.Mode.set('On');
+  await xapi.Config.HttpClient.AllowInsecureHTTPS.set('True');
+
+  // uncomment below if you need non-https
+  // await xapi.Config.HttpClient.AllowHTTP.set('True');
+
   serialNumber = await xapi.Status.SystemUnit.Hardware.Module.SerialNumber.get();
   ip4 = await xapi.Status.Network[1].IPv4.Address.get();
 
