@@ -9,6 +9,10 @@ import xapi from 'xapi';
 
 /** This is the url of the Room Hub server. Must be set. eg https://roomhub.acme.com:8080/ */
 const domain = '';
+
+// As defined in config for roomhub (or empty)
+const password = '';
+
 const pingInterval = 1000 * 60 * 60;
 
 let serialNumber;
@@ -29,20 +33,23 @@ let issueCategory;
 let issueComment;
 
 async function send(data) {
-  // cloud keeps resetting this - remove when we have proper https server
-  // await xapi.Config.HttpClient.AllowHTTP.set('True');
-
   const url = domain + '/api/command/';
   // console.log('send', url, data);
   data.device = serialNumber;
   data.ip = ip4;
   const body = JSON.stringify(data);
   const Header = ['Content-Type: application/json'];
+  if (password) Header.push(getHeader(password));
+
   return xapi.Command.HttpClient.Post({ Url: url, Header, AllowInsecureHTTPS: 'True' }, body)
     .catch(e => {
       console.warn('Request failed');
       xapi.Command.UserInterface.Message.Alert.Display({ Text: 'RoomHub was not able to perform the requested action.', Duration: 5 });
     });
+}
+
+function getHeader(password) {
+  return 'Authorization: Basic ' + btoa('admin:' + password);
 }
 
 function onEvent(event) {
@@ -97,8 +104,10 @@ async function removePanel(id) {
 
 async function installUiExtensions() {
   const url = domain + '/api/uiextensions/' + serialNumber;
+  const Header = password ? [getHeader(password)] : [];
+
   try {
-    const res = await xapi.Command.HttpClient.Get({ url, AllowInsecureHTTPS: true });
+    const res = await xapi.Command.HttpClient.Get({ url, Header, AllowInsecureHTTPS: true });
     const config = JSON.parse(res.Body);
     for (const id in config) {
       const xml = config[id];

@@ -1,4 +1,5 @@
 {
+  "password": "",
   "lightsIgor": {
     "gateway": "http://address-to-igor-host",
     "key": "igor-key"
