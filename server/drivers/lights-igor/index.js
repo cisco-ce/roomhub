@@ -50,18 +50,18 @@ async function onCommand(command, answer) {
   /* igor is 0-10000 */
   const level = parseInt(command.level) * 100;
 
+  let request;
   try {
-    await setLightPower(zone, level > 0, command.device);
+    request = await setLightPower(zone, level > 0, command.device);
+    request.response = { status: 200, ok: true };
     if (level > 0) {
-      await setLightLevel(zone, level, command.device);
+      request = await setLightLevel(zone, level, command.device);
+      request.response = { status: 200, ok: true };
     }
     answer({ result: true });
   }
   catch(e) {
-    // if (e.errno !== 'ENOTFOUND') {
-    //   console.log('error', e); // not network error
-    // }
-    answer({ error: 'Unknown error' });
+    answer('No light configured or invalid url', 400);
   }
 }
 

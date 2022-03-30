@@ -7,6 +7,16 @@ const shades = require('./drivers/shades');
 const fake = require('./drivers/fake-devices/');
 
 function routeCommand(command, answer) {
+  console.log(command);
+  try {
+    _routeCommand(command, answer);
+  }
+  catch(e) {
+    console.log('Not able to process command', e);
+  }
+}
+
+function _routeCommand(command, answer) {
   const config = ConfigServer.current();
   const request = {
     url: '/api/command',
@@ -18,13 +28,18 @@ function routeCommand(command, answer) {
 
   const log = Logger.logIncoming(request, command.type, command.device);
 
-  console.log(command);
-  const device = config.devices?.find(d => d.device === command.device);
+  // for heartbeat we return ok even if device isnt known
+  if (command.type === 'heartbeat') {
+    log.response = { status: 200, ok: true };
+    answer(true);
+    return;
+  }
 
+  const device = config.devices?.find(d => d.device === command.device);
   if (!device) {
     console.warn('unknown device', command.device);
-    log.response = { status: 400, ok: false };
-    answer('Unknown device', 400); // TODO
+    log.response = { status: 400, ok: false, text: 'Unknown device' };
+    answer('RoomHub does not know this device. You can add the device from the RoomHub admin ui.', 400);
     return;
   }
 
@@ -46,8 +61,9 @@ function routeCommand(command, answer) {
       fake(command, answer);
     }
     else {
-      console.warn('unknown light type', lights.type);
+      console.warn('unknown light type', device?.lights);
       answer('Unknown lights', 400);
+      log.response = { status: 400, ok: false, text: 'Unknown light type' };
     }
   }
   else if (command.type === 'shades') {
@@ -62,6 +78,8 @@ function routeCommand(command, answer) {
   }
   else {
     console.log('Unknown type', command.type);
+    answer(false);
+    log.response = { status: 400, ok: false, text: 'Unknown command ' + command.type };
   }
 }
 
