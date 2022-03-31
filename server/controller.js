@@ -4,6 +4,7 @@ const lightsIgor = require('./drivers/lights-igor');
 const lightsMolex = require('./drivers/lights-molex');
 const lightsHue = require('./drivers/lights-hue');
 const shades = require('./drivers/shades');
+const reportIssue = require('./drivers/report-issue');
 const fake = require('./drivers/fake-devices/');
 
 function routeCommand(command, answer) {
@@ -73,8 +74,7 @@ function _routeCommand(command, answer) {
     answer(true);
   }
   else if (command.type === 'report-issue') {
-    // todo
-    console.log('TODO report issue')
+    reportIssue(command, answer);
   }
   else {
     console.log('Unknown type', command.type);

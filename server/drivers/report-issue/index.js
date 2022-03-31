@@ -1,24 +1,24 @@
 const Logger = require('../../logger');
 const Config = require('../../config-server');
-const { join } = require('path');
 
 const webexMsgUrl = 'https://webexapis.com/v1/messages';
 
 function sendMessage(token, toPersonEmail, roomId, markdown, device) {
+  const body = Object.assign({ markdown }, toPersonEmail ? { toPersonEmail } : { roomId });
   const options = {
     headers: {
     'Content-Type': 'application/json',
     'Authorization': 'Bearer ' + token,
     },
+    body: JSON.stringify(body),
     method: 'POST'
   };
 
-  const body = Object.assign({ markdown }, toPersonEmail ? { toPersonEmail } : { roomId });
-  // console.log('send', webexMsgUrl, headers, body);
-  return Logger.fetchAndLog({ url, options }, 'Report issue', device);
+  // console.log('send', options);
+  return Logger.fetchAndLog({ url: webexMsgUrl, options }, 'Report issue', device);
 }
 
-function onCommand(command, answer) {
+async function onCommand(command, answer) {
   const config = Config.current();
   const { text, category, person } = command;
   const device = config.devices.find(d => d.device === command.device);
@@ -31,13 +31,18 @@ function onCommand(command, answer) {
   message += `\n* Reported by: **${person || '(Unknown)'}**`;
 
   try {
-    sendMessage(token, null, roomId, message, command.device)
-      .catch(e => console.log(e));
-    answer(true);
+    const res = await sendMessage(token, null, roomId, message, command.device);
+    if (!res.ok) {
+      const data = await res.json();
+      answer(data.message, 400);
+    }
+    else {
+      answer(true);
+    }
   }
   catch(e) {
     console.log(e);
-    answer({ statusText: e.statusText }, e.status);
+    answer('Not able to send message', 400);
   }
 
 }
