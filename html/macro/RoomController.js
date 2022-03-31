@@ -32,7 +32,7 @@ const issueOptions = {
 let issueCategory;
 let issueComment;
 
-async function send(data) {
+function send(data) {
   const url = join(domain, '/api/command/');
   // console.log('send', url, data);
   data.device = serialNumber;
@@ -41,11 +41,12 @@ async function send(data) {
   const Header = ['Content-Type: application/json'];
   if (password) Header.push(getHeader(password));
 
-  return xapi.Command.HttpClient.Post({ Url: url, Header, AllowInsecureHTTPS: 'True' }, body)
-    .catch(e => {
+  const promise = xapi.Command.HttpClient.Post({ Url: url, Header, AllowInsecureHTTPS: 'True' }, body);
+  promise.catch(e => {
       console.warn('Request failed');
       xapi.Command.UserInterface.Message.Alert.Display({ Text: 'RoomHub was not able to perform the requested action.', Duration: 5 });
     });
+  return promise;
 }
 
 function join(url1, url2) {
@@ -130,15 +131,21 @@ async function installUiExtensions() {
   }
 }
 
+function alert(title, text, duration) {
+  xapi.Command.UserInterface.Message.Alert.Display({ Title: title, Text: text, Duration: duration });
+}
+
 function onTextInput(e) {
   if (e.FeedbackId === 'issue-comment') {
     issueComment = e.Text;
-    xapi.Command.UserInterface.Message.TextInput.Display({
-      Title: 'Report issue (3/3)',
-      Text: 'Your name (optional)',
-      FeedbackId: 'issue-name',
-      InputText: '',
-    });
+    setTimeout(() => {
+      xapi.Command.UserInterface.Message.TextInput.Display({
+        Title: 'Report issue (3/3)',
+        Text: 'Your name',
+        FeedbackId: 'issue-name',
+        InputText: '',
+      });
+    }, 600);
   }
   else if (e.FeedbackId === 'issue-name') {
     const person = e.Text;
@@ -147,12 +154,9 @@ function onTextInput(e) {
       text: issueComment,
       category: issueCategory,
       person,
-    });
-    xapi.Command.UserInterface.Message.Alert.Display({
-      Title: 'Thank you!',
-      Text: 'Your feedback has been posten in a Webex space.',
-      Duration: 10,
-    });
+    })
+      .then(() => alert('Thank you!', 'Your feedback has been posten in a Webex space.', 5))
+      .catch(() => alert('Error', 'Not able to send message, sorry :(', 10));
   }
 }
 

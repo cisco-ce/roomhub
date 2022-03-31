@@ -39,7 +39,7 @@ The middle ware contains a simple admin UI so facility managers can setup the ma
 
 ## Installation
 
-* Clone the public Git repository from xxx.
+* Clone the public Git repository from github.com/cisco-ce/roomhub.
 * Create a config file. Eg you can copy config.example.json to config.json
 * Set the hosts, tokens etc for the integrations. Remove the examples rooms there if you wish
 * Build and serve the Docker image however your managed services allow you to (map to port 8080 for the web server)
