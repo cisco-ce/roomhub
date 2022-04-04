@@ -63,7 +63,7 @@ app.post('/api/command', (req, res) => {
 });
 
 app.get('/api/commands', (req, res) => {
-  jsonBack(res, Logger.lastLogs());
+  jsonBack(res, Logger.lastLogs(500));
 });
 
 app.get('/api/fake/:property/:id/:value', (req, res) => {
