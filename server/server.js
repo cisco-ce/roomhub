@@ -77,12 +77,12 @@ app.get('/api/uiextensions/:device', (req, res) => {
   const { config } = ConfigServer;
   const item = config.devices && config.devices.find(d => d.device === device);
 
-  let panels = { lights: null, shades: null, 'report-issue': null };
+  let panels = { lights: '', shades: '', 'report-issue': '' };
   if (item) {
     const { shades, lights, report_issue }  = item;
-    panels.shades = shades && fs.readFileSync('./html/macro/shades.xml').toString();
-    panels.lights = lights && fs.readFileSync('./html/macro/lights.xml').toString();
-    panels['report-issue'] = report_issue && fs.readFileSync('./html/macro/report-issue.xml').toString();
+    panels.shades = shades ? fs.readFileSync('./html/macro/shades.xml').toString() : '';
+    panels.lights = lights ? fs.readFileSync('./html/macro/lights.xml').toString() : '';
+    panels['report-issue'] = report_issue ? fs.readFileSync('./html/macro/report-issue.xml').toString() : '';
   }
 
   jsonBack(res, panels);
