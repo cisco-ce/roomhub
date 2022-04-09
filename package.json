@@ -13,6 +13,7 @@
     "body-parser": "^1.19.2",
     "express": "^4.17.3",
     "express-basic-auth": "^1.2.1",
-    "node-fetch": "^2.6.7"
+    "node-fetch": "^2.6.7",
+    "sqlite-async": "^1.1.3"
   }
 }
