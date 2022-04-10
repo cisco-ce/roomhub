@@ -8,11 +8,13 @@ const basicAuth = require('express-basic-auth');
 const routes = require('./routes');
 
 const ConfigServer = require('./config-server');
+const db = require('./db');
 
+db.init('roomhub.db');
 ConfigServer.loadConfig();
 
 const app = express();
-const port = 8080;
+const port = ConfigServer.current().port || 8080;
 
 const password = ConfigServer.current().password;
 if (password) {
@@ -29,7 +31,7 @@ else {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-routes(app);
+routes(app, db);
 
 app.use(express.static('html/'));
 
@@ -47,4 +49,4 @@ try {
   console.warn("failed to load certificate, falling back to http")
 }
 
-server.listen(port, () => console.log(`Web server on port ${port}!`));
+server.listen(port, () => console.log(`Web server on port ${port}!\n`));

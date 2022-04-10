@@ -1,10 +1,11 @@
-version: "3"
+version: "4"
 
 services:
   manhattan:
     build: .
     volumes:
       - ./configIT.json:/usr/src/app/config.json
+      - ./roomhub.db:/usr/src/app/roomhub.db
       - /home/ops/certs:/usr/src/app/server/certs
     ports:
       - 9080:8080

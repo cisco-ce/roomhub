@@ -13,7 +13,7 @@ function jsonBack(res, object, code) {
   res.end(JSON.stringify(object));
 }
 
-function createRoutes(app) {
+function createRoutes(app, db) {
   app.get('/api/test', (req, res) => {
     jsonBack(res, { test: 'hello' });
   });
@@ -27,6 +27,17 @@ function createRoutes(app) {
   app.get('/api/config', (req, res) => {
     const { config } = ConfigServer;
     jsonBack(res, config);
+  });
+
+  app.post('/api/data', (req, res) => {
+    console.log('got data', req.body);
+    try {
+      db.saveRoomData(req.body);
+      jsonBack(res, { ok: true });
+    }
+    catch(e) {
+      jsonBack(res, error.reason, 400);
+    }
   });
 
   app.post('/api/command', (req, res) => {
