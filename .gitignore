@@ -4,3 +4,4 @@ wip/
 config.json
 configIT.json
 roomhub.db
+server/certs
