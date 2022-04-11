@@ -30,9 +30,10 @@
         key="room.macAddress"
         class="room"
         :class="getStatus(room)"
-        :title="'Sample time: ' + new Date(room.timestamp)"
+        :title="`${room.deviceName}\n${room.model}\n${room.sipuri}
+Last updated:${new Date(room.timestamp)}`"
       >
-      <span class="room-name" x-text="room.deviceName"></span>
+      <span class="room-name" x-text="roomName(room)"></span>
       <div class="status">
         <span class="room-participants" x-text="room.occupants ? room.occupants + '👩‍💼' : ''"></span>
         <span class="room-incall" x-text="room.callStatus ? '☎️' : '' "></span>

@@ -9,7 +9,8 @@ body {
   list-style-type: none;
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  /* minmax ensures the columns are equal width */
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   padding: 1em;
 }
 
@@ -51,6 +52,9 @@ input, label {
 input {
   background-color: #444;
   border: 1px solid #666;
+}
+
+input:focus {
   outline: 1px solid #0ac;
 }
 
@@ -60,7 +64,7 @@ input {
   }
 
   .room-list {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
 }

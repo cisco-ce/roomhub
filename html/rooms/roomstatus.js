@@ -24,6 +24,11 @@ const dataModel = {
     return room.occupants < 1 && room.callStatus < 1;
   },
 
+  roomName(room) {
+    return room.deviceName;
+//    return room.deviceName.match(/LYS\d+-[U\d]+-(.*)/i)?.[1] || room.deviceName;
+  },
+
   getRooms() {
     return this.rooms.filter(room => {
       return room.deviceName.toLowerCase().includes(this.filter.name.toLowerCase())
