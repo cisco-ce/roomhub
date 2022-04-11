@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="roomstatus.js"></script>
+  <script src="https://unpkg.com/alpinejs@3.9.1/dist/cdn.min.js" defer></script>
+  <link rel="stylesheet" href="assets/momentum-ui-icons.min.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="roomstatus.css">
+  <link rel="stylesheet" href="mobile.css" media="screen and (max-width: 600px)">
+  <title>Room Status</title>
+</head>
+<body x-data="dataModel">
+
+  <ul class="room-list">
+    <template x-for="room in rooms">
+      <li
+        key="room.macAddress"
+        class="room"
+        :class="getStatus(room)"
+      >
+      <span x-text="room.deviceName + ':'"></span>
+      <span x-text="room.occupants"></span>
+    </li>
+    </template>
+  </ul>
+  <div x-text="`Rooms: ${rooms.length}`"></div>
+</body>
+
+</html>

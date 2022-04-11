@@ -1,0 +1,26 @@
+body {
+  font-size: 12px;
+}
+
+.room-list {
+  list-style-type: none;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.room-list .room {
+  margin: 0.5em;
+  padding: 0.5em;
+  border: 1px solid #eee;
+  width: 15vw;
+  background-color: white;
+}
+
+.room.occupied {
+  background-color: #ffe6e6;
+}
+
+.room.free {
+  background-color: #cdffcd;
+}
