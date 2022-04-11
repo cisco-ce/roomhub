@@ -38,9 +38,10 @@ CREATE TABLE IF NOT EXISTS roomData (
 
 async function getCurrentRoomData() {
   const sql = `
-    SELECT * FROM roomData
-    GROUP BY macAddress
-    ORDER BY timestamp DESC`;
+    SELECT *, max(timestamp)
+    FROM roomData
+    GROUP BY(macAddress)
+  `;
   const res = await db.all(sql);
   return res || [];
 }
