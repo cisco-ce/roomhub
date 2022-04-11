@@ -1,5 +1,8 @@
 body {
   font-size: 12px;
+  background-color: black;
+  color: white;
+  padding: 2em;
 }
 
 .room-list {
@@ -7,24 +10,24 @@ body {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
+  padding: 1em;
 }
 
 .room-list .room {
   position: relative;
   margin: 0.5em;
   padding: 0.5em;
-  border: 1px solid #eee;
+  border: 1px solid #666;
   width: 15vw;
   min-height: 3.5em;
-  background-color: white;
+  background-color: #333;
 }
 
 .room.occupied {
-  background-color: #ffe6e6;
+  background-color: #621c1c;
 }
 
 .room.free {
-  background-color: #cdffcd;
 }
 
 .room-participants {
@@ -40,9 +43,21 @@ body {
   justify-content: flex-end;
 }
 
+input, label {
+  color: inherit;
+}
 
+input {
+  background-color: #444;
+  border: 1px solid #666;
+  outline: 1px solid #0ac;
+}
 
 @media screen and (max-width: 600px) {
+  body {
+    padding: 0;
+  }
+
   .room-list .room {
     width: 40vw;
   }
