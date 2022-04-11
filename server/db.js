@@ -36,6 +36,15 @@ CREATE TABLE IF NOT EXISTS roomData (
 );
 `;
 
+async function getCurrentRoomData() {
+  const sql = `
+    SELECT * FROM roomData
+    GROUP BY macAddress
+    ORDER BY timestamp DESC`;
+  const res = await db.all(sql);
+  return res || [];
+}
+
 function insert(table, obj) {
   const keys  = Object.keys(obj).join(', ');
   const marks = Array(Object.keys(obj).length).fill('?');
@@ -56,4 +65,4 @@ function saveRoomData(data) {
 }
 
 
-module.exports = { init, saveRoomData };
+module.exports = { init, saveRoomData, getCurrentRoomData };

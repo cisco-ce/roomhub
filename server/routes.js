@@ -29,11 +29,21 @@ function createRoutes(app, db) {
     jsonBack(res, config);
   });
 
-  app.post('/api/data', (req, res) => {
+  app.post('/api/data', async (req, res) => {
     console.log('got data', req.body);
     try {
-      db.saveRoomData(req.body);
+      await db.saveRoomData(req.body);
       jsonBack(res, { ok: true });
+    }
+    catch(e) {
+      jsonBack(res, error.reason, 400);
+    }
+  });
+
+  app.get('/api/data', async (req, res) => {
+    try {
+      const data = await db.getCurrentRoomData();
+      jsonBack(res, data);
     }
     catch(e) {
       jsonBack(res, error.reason, 400);
