@@ -14,8 +14,16 @@
 </head>
 <body x-data="dataModel">
 
+  <div>
+    <input
+      type="checkbox"
+      id="free-only"
+      @change="filter.freeOnly = !!$event.target.checked"
+    />
+    <label for="free-only" >Show available rooms only</label>
+  </div>
   <ul class="room-list">
-    <template x-for="room in rooms">
+    <template x-for="room in getRooms()">
       <li
         key="room.macAddress"
         class="room"
