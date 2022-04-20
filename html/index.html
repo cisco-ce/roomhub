@@ -62,7 +62,7 @@
             <td x-text="'#' + logEvent.id"></td>
             <td x-text="logEvent.direction === 'in' ? '➡️ IN' : '⬅️ OUT'"></td>
             <td x-text="Util.formatTime(logEvent.time)"></td>
-            <td x-text="logEvent.device"></td>
+            <td x-text="logEvent.room || logEvent.device"></td>
             <td x-text="Util.formatUrl(logEvent.request.url, 30)"></td>
             <td x-text="logEvent.type"></td>
             <td

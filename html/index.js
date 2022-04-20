@@ -10,6 +10,10 @@ const dataModel = {
   currentEvent: null,
   config: {},
 
+  async init() {
+    this.config = await Util.loadConfig();
+  },
+
   async setPage(page) {
     this.page = page;
     this.pollEvents( page === 'log');
@@ -43,13 +47,18 @@ const dataModel = {
 
   async getEvents() {
     const events = await Util.fetchEvents();
-    this.logEvents = events;
+    this.logEvents = events.map(e => Object.assign(e, { room: this.roomName(e.device) }));
     this.filterEvents();
   },
 
   showEventDetail(id) {
     const event = this.logEvents.find(e => e.id == id);
     this.currentEvent = event;
+  },
+
+  roomName(device) {
+    const dev = this.config?.devices?.find(d => d.device === device);
+    return dev?.room || device;
   },
 
   async saveRoom() {
@@ -129,7 +138,10 @@ const dataModel = {
     const word = $('#filter-events').value.toLowerCase();
     const contain = Util.strContains;
     this.filteredEvents = this.logEvents.filter(e => (
-      contain(e.device, word) || contain(e.type, word) || contain(e.request.url, word)
+      contain(e.device, word)
+      || contain(e.type, word)
+      || contain(e.room, word)
+      || contain(e.request.url, word)
     ));
   },
 
