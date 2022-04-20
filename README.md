@@ -29,7 +29,7 @@ These smart integrations are supported out of the box:
 
 ### UI extensions and macros
 
-The UI extensions and macros are installed on the video devices and allow the user to control lights and shades, and report issues from the same user interface that is used to control the video calls. The macro sends requests to the middle ware server.
+The UI extensions and macros are installed on the video devices and allow the user to control lights and shades, and report issues from the same user interface that is used to control the video calls. The macro sends all requests to the middle ware server, which then talks to the necessary smart integrations to perform the desired actions.
 
 ### The middle ware server
 
@@ -42,10 +42,10 @@ The middle ware contains a simple admin UI so facility managers can setup the ma
 * Clone the public Git repository from github.com/cisco-ce/roomhub.
 * Create a config file. Eg you can copy config.example.json to config.json
 * Set the hosts, tokens etc for the integrations. Remove the examples rooms there if you wish
-* Build and serve the Docker image however your managed services allow you to (map to port 8080 for the web server)
-* The Dockerfile is pretty standard, there is also a docker-compose.yml if you use Docker Compose
-* TODO!!! config setup
-* TODO!!! ssh key setup
+* Build and serve the Docker image however your managed services allow you to (map to port 2000 for the web server)
+* The Dockerfile is pretty standard, there is also a docker-compose.yml if you want to use Docker Compose
+* If you want to use https, edit the server/server.js file and change the file paths for the cerficiates to match yours
+* Deploy the docker image (eg sudo docker-compose up -d --build if you are using docker compose)
 * Visit the URL of the docker image, it should show a basic admin page for the middle ware
 * You are now ready to setup your rooms
 
