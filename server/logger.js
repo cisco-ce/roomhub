@@ -77,8 +77,9 @@ class Logger {
     return promise;
   }
 
-  static lastLogs(limit) {
-    return this.logs.slice(-limit);
+  static lastLogs(limit, heartBeat = false) {
+    const list = heartBeat ? this.logs : this.logs.filter(i => i.type !== 'heartbeat');
+    return list.slice(-limit);
   }
 }
 
