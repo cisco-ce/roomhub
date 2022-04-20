@@ -1,3 +1,5 @@
+var fs = require('fs');
+
 const Logger = require('./logger');
 const onCommand = require('./controller');
 const ConfigServer = require('./config-server');
