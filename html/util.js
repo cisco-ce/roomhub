@@ -18,8 +18,10 @@ const Util = {
   },
 
   async fetchEvents() {
+    const heartbeat = $('#heartbeat')?.checked;
+    const url = '/api/commands' + (heartbeat ? '/?heartbeat=1' : '');
     try {
-      const json = await fetch('/api/commands');
+      const json = await fetch(url);
       const data = await json.json();
       // console.log(data);
       return data;

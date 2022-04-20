@@ -42,6 +42,8 @@
     <h2>Room Events</h2>
     Shows incoming requests from video device, and outgoing requests to lights etc.<br/>
     <input id="filter-events" placeholder="Filter events" @input="filterEvents" />
+    <input id="heartbeat" type="checkbox" @change="getEvents" />
+    <label for="heartbeat">Show heart beats</label>
     <table id="room-events">
       <tbody>
         <tr>

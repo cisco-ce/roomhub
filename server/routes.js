@@ -59,7 +59,8 @@ function createRoutes(app, db) {
   });
 
   app.get('/api/commands', (req, res) => {
-    jsonBack(res, Logger.lastLogs(500));
+    const heartbeat = parseInt(req.query.heartbeat) || false;
+    jsonBack(res, Logger.lastLogs(500, heartbeat));
   });
 
   app.get('/api/fake/:property/:id/:value', (req, res) => {
