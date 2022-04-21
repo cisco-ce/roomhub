@@ -9,3 +9,4 @@ services:
       - /home/ops/certs:/usr/src/app/server/certs
     ports:
       - 9080:8080
+    restart: unless-stopped
