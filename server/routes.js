@@ -79,7 +79,7 @@ function createRoutes(app, db) {
       const { shades, lights, report_issue }  = item;
       panels.shades = shades ? fs.readFileSync('./html/macro/shades.xml').toString() : '';
       panels.lights = lights ? fs.readFileSync('./html/macro/lights.xml').toString() : '';
-      panels['report-issue'] = report_issue ? fs.readFileSync('./html/macro/report-issue.xml').toString() : '';
+      panels['report-issue'] = report_issue === false ? '' : fs.readFileSync('./html/macro/report-issue.xml').toString();
     }
 
     jsonBack(res, panels);
