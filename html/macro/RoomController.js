@@ -21,11 +21,11 @@ let ip4;
 const issueOptions = {
   Text: 'What type of issue?',
   Title: 'Report issue in this room (1/3)',
-  'Option.1': 'Just a demo',
-  "Option.2": 'Calling',
-  'Option.3': 'Audio/Video issues',
-  'Option.4': 'Facility issues',
-  'Option.5': 'Other',
+  'Option.1': 'Technology issue',
+  "Option.2": 'Facilitiy issue',
+  'Option.3': 'CXC issue',
+  'Option.4': 'Collab support (employee)',
+  'Option.5': 'Just a demo',
   FeedbackId: 'issue-category',
   Duration: 20,
 };
