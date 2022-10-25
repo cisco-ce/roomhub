@@ -218,14 +218,13 @@ function handleVoiceAssistDirective(cmd) {
   }
 }
 
-function onVoiceCommand(assitant_event) {
-  const event = JSON.parse(assitant_event)
-
-  if (event.name != 'room-skill-event' && event.name != 'room-control-event') {
+function onVoiceCommand(assistant_event) {
+  if (assistant_event.Name != 'room-skill-event' && assistant_event.Name != 'room-control-event') {
     return;
   }
 
-  event.payload.commands.forEach(handleVoiceAssistDirective);
+  let payload = JSON.parse(assistant_event.Payload)
+  payload.commands.forEach(handleVoiceAssistDirective);
 }
 
 async function init() {
