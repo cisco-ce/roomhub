@@ -193,6 +193,9 @@ function handleVoiceAssistDirective(cmd) {
     case'close-shades':
       send({ type: 'shades', shadeIndex: -1, position: 4 });
       break;
+    case'set-lights-state':
+      send({ type: 'lights', level: cmd.payload.level });
+      break;
     case'turn-lights-on':
       send({ type: 'lights', level: 100 });
       break;
@@ -215,9 +218,13 @@ function handleVoiceAssistDirective(cmd) {
   }
 }
 
-function onVoiceCommand(event) {
-  const commands = JSON.parse(event).commands;
-  commands.forEach(handleVoiceAssistDirective);
+function onVoiceCommand(assistant_event) {
+  if (assistant_event.Name != 'room-skill-event' && assistant_event.Name != 'room-control-event') {
+    return;
+  }
+
+  let payload = JSON.parse(assistant_event.Payload)
+  payload.commands.forEach(handleVoiceAssistDirective);
 }
 
 async function init() {
@@ -237,7 +244,7 @@ async function init() {
   xapi.Event.UserInterface.Extensions.Widget.Action.on(onEvent);
   setInterval(ping, pingInterval);
   await ping();
-  xapi.event.on('UserInterface Assistant Notification Payload', onVoiceCommand);
+  xapi.event.on('UserInterface Assistant Notification', onVoiceCommand);
   xapi.Event.UserInterface.Extensions.Panel.Clicked.on(onPanelClicked);
   xapi.Event.UserInterface.Message.Prompt.Response.on(onPromptResponse);
   xapi.Event.UserInterface.Message.TextInput.Response.on(onTextInput);

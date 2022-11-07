@@ -4,7 +4,7 @@ const { join } = require('path');
 
 
 
-function setLightLevel(id, level, device, isGroup = false) {
+function setLightLevel(id, level, device, isGroup = true) {
   const { host, token } = Config.current().lightsHue;
 
   const path = isGroup ? `groups/${id}/action` : `lights/${id}/state`;
@@ -28,11 +28,11 @@ async function onCommand(command, answer) {
   const device = config.devices?.find(d => d.device === command.device);
 
   // console.log('on light command', command);
-  const { lightId } = device.lights;
+  const { zone } = device.lights;
   const level = parseInt(command.level * 255 / 100);
 
   try {
-    await setLightLevel(lightId, level, command.device);
+    await setLightLevel(zone, level, command.device);
     answer({ result: true });
   }
   catch(e) {
