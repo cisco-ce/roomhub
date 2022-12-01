@@ -243,7 +243,7 @@ async function init() {
 
   xapi.Event.UserInterface.Extensions.Widget.Action.on(onEvent);
   setInterval(ping, pingInterval);
-  await ping();
+  setTimeout(ping, 60 * 1000);
   xapi.event.on('UserInterface Assistant Notification', onVoiceCommand);
   xapi.Event.UserInterface.Extensions.Panel.Clicked.on(onPanelClicked);
   xapi.Event.UserInterface.Message.Prompt.Response.on(onPromptResponse);
