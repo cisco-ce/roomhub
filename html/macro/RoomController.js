@@ -249,7 +249,7 @@ async function init() {
   xapi.Event.UserInterface.Message.Prompt.Response.on(onPromptResponse);
   xapi.Event.UserInterface.Message.TextInput.Response.on(onTextInput);
 
-  installUiExtensions();
+  setTimeout(installUiExtensions, 10 * 1000);
 }
 
 init();
