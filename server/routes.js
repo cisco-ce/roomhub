@@ -74,12 +74,19 @@ function createRoutes(app, db) {
     const { config } = ConfigServer;
     const item = config.devices && config.devices.find(d => d.device === device);
 
-    let panels = { lights: '', shades: '', 'report-issue': '' };
+    const uiFile = name => fs.readFileSync('./html/macro/' + name).toString();
+
+    let panels = {
+      lights: '',
+      shades: '',
+      'report-issue': '',
+    };
+
     if (item) {
       const { shades, lights, report_issue }  = item;
-      panels.shades = shades ? fs.readFileSync('./html/macro/shades.xml').toString() : '';
-      panels.lights = lights ? fs.readFileSync('./html/macro/lights.xml').toString() : '';
-      panels['report-issue'] = report_issue === false ? '' : fs.readFileSync('./html/macro/report-issue.xml').toString();
+      panels.shades = shades ? uiFile('shades.xml') : '';
+      panels.lights = lights ? uiFile('lights.xml') : '';
+      panels['report-issue'] = report_issue ? uiFile('report-issue.xml') : '';
     }
 
     jsonBack(res, panels);

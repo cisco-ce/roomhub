@@ -22,9 +22,10 @@ async function onCommand(command, answer) {
   const config = Config.current();
   const { text, category, person } = command;
   const device = config.devices.find(d => d.device === command.device);
+  const gateway = device?.['report-issue'];
   const room = device?.room || ('Video device ' + command.device);
 
-  const { token, roomId } = config.facilityBot || {};
+  const { token, roomId } = config.facilityBot[gateway] || {};
   let message = `Issue reported from *${room}*:\n`;
   message += `\n* Category: **${category}**`;
   message += `\n* Comment: **${text}**`;
