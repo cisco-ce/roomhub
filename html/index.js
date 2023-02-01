@@ -76,9 +76,13 @@ const dataModel = {
     const lightGateway = $('#light-gateway').value;
     const shadeZone = $('#shade-zone').value;
     const shadeGateway = $('#shade-gateway').value;
+    const reportIssue = $('#report-issue-gateway').value;
+
     const room = {
-      device, room: name
+      device,
+      room: name,
     };
+
     if (lightType !== 'none') {
       room.lights = {
         type: lightType,
@@ -92,6 +96,10 @@ const dataModel = {
         gateway: shadeGateway,
       };
     }
+    if (reportIssue) {
+      room['report-issue'] = reportIssue;
+    }
+
     if (!device) {
       alert('You need to enter a device serial number');
       return;
@@ -124,6 +132,7 @@ const dataModel = {
       $('#light-zone').value = device.lights?.zone || '';
       $('#shade-zone').value = device.shades?.zones?.join(', ') || '';
       $('#shade-gateway').value = device.shades?.gateway || '';
+      $('#report-issue-gateway').value = device['report-issue'] || '';
     }
     $('#serial-number').disabled = !!deviceId;
   },
