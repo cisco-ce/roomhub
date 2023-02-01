@@ -15,8 +15,8 @@ class ConfigServer {
 
     try {
       const file = fs.readFileSync(path);
+      console.log('Loaded config', path);
       this.config = JSON.parse(file.toString());
-      // console.log('Loaded config', this.config);
     }
     catch(e) {
       console.error('Not able to read config file', path);
