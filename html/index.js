@@ -66,18 +66,23 @@ const dataModel = {
     const name = $('#room-name').value;
     const lightType = $('#light-type').value;
     const lightZone = $('#light-zone').value;
+    const lightGateway = $('#light-gateway').value;
     const shadeZone = $('#shade-zone').value;
+    const shadeGateway = $('#shade-gateway').value;
     const room = {
       device, room: name
     };
     if (lightType !== 'none') {
       room.lights = {
-        type: lightType, zone: lightZone,
+        type: lightType,
+        zone: lightZone,
+        gateway: lightGateway,
       };
     }
     if (shadeZone) {
       room.shades = {
         zones: shadeZone.split(',').map(i => i.trim()),
+        gateway: shadeGateway,
       };
     }
     if (!device) {
@@ -107,9 +112,11 @@ const dataModel = {
       const device = config.devices.find(i => i.device === deviceId);
       $('#serial-number').value = device.device || '';
       $('#room-name').value = device.room || '';
-      $('#light-type').value = device.lights?.type
+      $('#light-type').value = device.lights?.type;
+      $('#light-gateway').value = device.lights?.gateway || '';
       $('#light-zone').value = device.lights?.zone || '';
       $('#shade-zone').value = device.shades?.zones?.join(', ') || '';
+      $('#shade-gateway').value = device.shades?.gateway || '';
     }
   },
 

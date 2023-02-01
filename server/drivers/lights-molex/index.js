@@ -2,8 +2,12 @@ const Logger = require('../../logger');
 const Config = require('../../config-server');
 const { join } = require('path');
 
-function setMolexLight(zone, level, device) {
-  const { host, projectId, token } = Config.current().lightsMolex;
+function setMolexLight(gateway, zone, level, device) {
+  const settings = Config.current().lightsMolex?.[gateway];
+  if (!settings) {
+    throw new Error('Gateway not found', settings);
+  }
+  const { host, projectId, token } = settings;
   const url = join(host, `/transcend/api/v1/zone/brightness?projectid=${projectId}&zoneid=${zone}`);
 
   const options = {
@@ -24,11 +28,11 @@ async function onCommand(command, answer) {
   const device = config.devices?.find(d => d.device === command.device);
 
   // console.log('on light command', command);
-  const { zone } = device.lights;
+  const { zone, gateway } = device.lights;
   const level = parseInt(command.level);
 
   try {
-    await setMolexLight(zone, level, command.device);
+    await setMolexLight(gateway, zone, level, command.device);
     answer({ result: true });
   }
   catch(e) {

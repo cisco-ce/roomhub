@@ -169,6 +169,7 @@
         <label>Room Name</label>
         <input id="room-name"/>
       </div>
+      <hr />
       <div>
         <label>Lights</label>
         <select id="light-type">
@@ -179,12 +180,21 @@
         </select>
       </div>
       <div>
+        <label>Lights Gateway</label>
+        <input id="light-gateway" />
+      </div>
+      <div>
         <label>Light zone</label>
         <input id="light-zone"/>
       </div>
+      <hr />
       <div>
         <label>Shade zones</label>
         <input id="shade-zone"/> (comma separated)
+      </div>
+      <div>
+        <label>Shade gateway</label>
+        <input id="shade-gateway"/>
       </div>
       <button class="primary" id="add-room" @click="saveRoom()">Save room</button>
       <button @click="cancelDialog()">Cancel</button>

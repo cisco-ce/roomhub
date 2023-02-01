@@ -4,8 +4,12 @@ const { join } = require('path');
 
 
 
-function setLightLevel(id, level, device, isGroup = true) {
-  const { host, token } = Config.current().lightsHue;
+function setLightLevel(gateway, id, level, device, isGroup = true) {
+  const settings = Config.current().lightsHue[gateway];
+  if (!settings) {
+    throw new Error(`Gateway ${gateway} not found`);
+  }
+  const { host, token } = settings;
 
   const path = isGroup ? `groups/${id}/action` : `lights/${id}/state`;
   const url = join(host, `api/${token}`, path);
@@ -28,11 +32,11 @@ async function onCommand(command, answer) {
   const device = config.devices?.find(d => d.device === command.device);
 
   // console.log('on light command', command);
-  const { zone } = device.lights;
+  const { zone, gateway } = device.lights;
   const level = parseInt(command.level * 255 / 100);
 
   try {
-    await setLightLevel(zone, level, command.device);
+    await setLightLevel(gateway, zone, level, command.device, false);
     answer({ result: true });
   }
   catch(e) {

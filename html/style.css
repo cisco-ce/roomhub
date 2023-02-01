@@ -199,6 +199,13 @@ label {
   width: 200px;
 }
 
+hr {
+  height: 1px;
+  background-color: #ddd;
+  margin: 20px 0;
+  border: 0;
+}
+
 button {
   border-radius: 2em;
   padding: 0.3em 2em;
