@@ -45,6 +45,13 @@ const dataModel = {
     else clearInterval(this.timer);
   },
 
+  get rooms() {
+    if (!this.config || !this.config.devices) return [];
+    const copy = [...this.config?.devices];
+    copy.sort((r1, r2) => r1.room < r2.room ? -1 : 1);
+    return copy;
+  },
+
   async getEvents() {
     const events = await Util.fetchEvents();
     this.logEvents = events.map(e => Object.assign(e, { room: this.roomName(e.device) }));
