@@ -155,6 +155,10 @@ button, input, textarea, select, option {
   font-family: inherit;
 }
 
+*:disabled {
+  opacity: 0.5;
+}
+
 textarea, input, table, select {
   background-color: #eee;
   border: 1px solid #ccc;

@@ -125,6 +125,7 @@ const dataModel = {
       $('#shade-zone').value = device.shades?.zones?.join(', ') || '';
       $('#shade-gateway').value = device.shades?.gateway || '';
     }
+    $('#serial-number').disabled = !!deviceId;
   },
 
   async deleteRoom(deviceId) {
