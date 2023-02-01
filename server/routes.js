@@ -83,10 +83,10 @@ function createRoutes(app, db) {
     };
 
     if (item) {
-      const { shades, lights, report_issue }  = item;
+      const { shades, lights, reportIssue }  = item;
       panels.shades = shades ? uiFile('shades.xml') : '';
       panels.lights = lights ? uiFile('lights.xml') : '';
-      panels['report-issue'] = report_issue ? uiFile('report-issue.xml') : '';
+      panels['report-issue'] = reportIssue ? uiFile('report-issue.xml') : '';
     }
 
     jsonBack(res, panels);
