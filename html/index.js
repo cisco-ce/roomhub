@@ -97,7 +97,7 @@ const dataModel = {
       };
     }
     if (reportIssue) {
-      room['report-issue'] = reportIssue;
+      room['reportIssue'] = reportIssue;
     }
 
     if (!device) {
@@ -132,7 +132,7 @@ const dataModel = {
       $('#light-zone').value = device.lights?.zone || '';
       $('#shade-zone').value = device.shades?.zones?.join(', ') || '';
       $('#shade-gateway').value = device.shades?.gateway || '';
-      $('#report-issue-gateway').value = device['report-issue'] || '';
+      $('#report-issue-gateway').value = device['reportIssue'] || '';
     }
     $('#serial-number').disabled = !!deviceId;
   },
