@@ -189,6 +189,10 @@ td {
   border-bottom: 1px solid #eee;
 }
 
+td .icon {
+  cursor: pointer;
+}
+
 textarea {
   font-size: 0.8em;
   resize: vertical;
