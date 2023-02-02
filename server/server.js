@@ -4,29 +4,18 @@ var http = require('http');
 var https = require('https');
 const express = require('express');
 const bodyParser = require('body-parser');
-const basicAuth = require('express-basic-auth');
-const routes = require('./routes');
 
 const ConfigServer = require('./config-server');
+ConfigServer.loadConfig();
+
+const routes = require('./routes');
+
 const db = require('./db');
 
 db.init('roomhub.db');
-ConfigServer.loadConfig();
 
 const app = express();
 const port = ConfigServer.current().port || 8080;
-
-const password = ConfigServer.current().password;
-if (password) {
-  app.use(basicAuth({
-    users: { 'admin': password },
-    challenge: true,
-    realm: 'roomhub',
-  }));
-}
-else {
-  console.warn("Warning: RoomHub is not password protected. See config file to add it.");
-}
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

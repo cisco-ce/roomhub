@@ -1,5 +1,9 @@
 {
-  "password": "",
+  "passwords": {
+    "admin": "admin",
+    "readonly": "readonly",
+    "macro": "macro"
+  },
   "lightsIgor": {
     "NYC-1": {
       "gateway": "http://address-to-igor-host",
@@ -52,7 +56,7 @@
       "room": "NYC1-9-LIBERTY",
       "lights": {
         "type": "igor",
-        "zone": 5,
+        "zone": "5",
         "gateway": "NYC-1"
       }
     }

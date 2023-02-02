@@ -56,7 +56,7 @@ function join(url1, url2) {
 }
 
 function getHeader(password) {
-  return 'Authorization: Basic ' + btoa('admin:' + password);
+  return 'Authorization: Basic ' + btoa('macro:' + password);
 }
 
 function onEvent(event) {

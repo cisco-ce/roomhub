@@ -1,8 +1,33 @@
 var fs = require('fs');
+const basicAuth = require('express-basic-auth');
 
 const Logger = require('./logger');
 const onCommand = require('./controller');
 const ConfigServer = require('./config-server');
+
+const config = ConfigServer.current();
+
+const admin = {
+  admin: config.passwords?.admin || '',
+};
+
+const readonly = {
+  admin: config.passwords?.admin || '',
+  readonly: config.passwords?.readonly || '',
+}
+
+const macro = {
+  admin: config.passwords?.admin || '',
+  readonly: config.passwords?.readonly || '',
+  macro: config.passwords?.macro || '',
+};
+
+
+const auth = users => basicAuth({
+  users,
+  challenge: true,
+  realm: 'roomhub',
+});
 
 // a simple registry for storing mocked integration values
 const fakeValues = {};
@@ -16,60 +41,38 @@ function jsonBack(res, object, code) {
 }
 
 function createRoutes(app, db) {
-  app.get('/api/test', (req, res) => {
+  app.get('/api/test', auth(macro), (req, res) => {
     jsonBack(res, { test: 'hello' });
   });
 
-  app.post('/api/config', (req, res) => {
+  // Save a configuration
+  app.post('/api/config', auth(admin), (req, res) => {
     const config = req.body;
     ConfigServer.saveConfig(config);
     jsonBack(res, true);
   });
 
-  app.get('/api/config', (req, res) => {
+  // Fetch a configuration
+  app.get('/api/config', auth(readonly), (req, res) => {
     const { config } = ConfigServer;
     jsonBack(res, config);
   });
 
-  app.post('/api/data', async (req, res) => {
-    console.log('got data', req.body);
-    try {
-      await db.saveRoomData(req.body);
-      jsonBack(res, { ok: true });
-    }
-    catch(e) {
-      jsonBack(res, error.reason, 400);
-    }
-  });
-
-  app.get('/api/data', async (req, res) => {
-    try {
-      const data = await db.getCurrentRoomData();
-      jsonBack(res, data);
-    }
-    catch(e) {
-      jsonBack(res, error.reason, 400);
-    }
-  });
-
-  app.post('/api/command', (req, res) => {
+  // Receive command (eg adjust light, from a cisco device)
+  app.post('/api/command', auth(macro), (req, res) => {
     const { body } = req;
     const answer = (data, code) => jsonBack(res, data, code);
     onCommand(body, answer);
   });
 
-  app.get('/api/commands', (req, res) => {
+  // Fetch all commands (to show logs etc)
+  app.get('/api/commands', auth(readonly), (req, res) => {
     const heartbeat = parseInt(req.query.heartbeat) || false;
     jsonBack(res, Logger.lastLogs(500, heartbeat));
   });
 
-  app.get('/api/fake/:property/:id/:value', (req, res) => {
-    const { property, id, value } = req.params;
-    fakeValues[property + id] = value;
-    jsonBack(res, { property, id, value });
-  });
-
-  app.get('/api/uiextensions/:device', (req, res) => {
+  // For Cisco device to query which UI extensions to install locally
+  app.get('/api/uiextensions/:device', auth(macro), (req, res) => {
     const device = req.params.device;
     const { config } = ConfigServer;
     const item = config.devices && config.devices.find(d => d.device === device);
@@ -90,6 +93,13 @@ function createRoutes(app, db) {
     }
 
     jsonBack(res, panels);
+  });
+
+  // For testing without physical lights etc
+  app.get('/api/fake/:property/:id/:value', (req, res) => {
+    const { property, id, value } = req.params;
+    fakeValues[property + id] = value;
+    jsonBack(res, { property, id, value });
   });
 
   app.get('/api/fake', (req, res) => jsonBack(res, fakeValues));
