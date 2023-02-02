@@ -1,6 +1,5 @@
 node_modules
 wip/
-config.json
-configIT.json
+config*.json
 roomhub.db
 server/certs
