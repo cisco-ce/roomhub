@@ -53,7 +53,7 @@ function createRoutes(app, db) {
   });
 
   // Fetch a configuration
-  app.get('/api/config', auth(readonly), (req, res) => {
+  app.get('/api/config', auth(admin), (req, res) => {
     const { config } = ConfigServer;
     jsonBack(res, config);
   });
