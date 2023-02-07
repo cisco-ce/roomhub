@@ -104,18 +104,18 @@
       <tr>
         <th>Serial number</th>
         <th>Room name</th>
-        <th></th>
-        <th></th>
-        <th></th>
+        <th>Light type</th>
+        <th>Light zone</th>
+        <th>Shade zone</th>
         <th>Actions</th>
       </tr>
       <template x-for="room in rooms">
       <tr>
         <td x-text="room.device"></td>
         <td x-text="room.room"></td>
-        <td x-text="room.lights ? '💡' : ''"></td>
-        <td x-text="room.shades ? '░' : ''"></td>
-        <td x-text="room.reportIssue ? '⛑️' : ''"></td>
+        <td x-text="room.lights?.type"></td>
+        <td x-text="room.lights?.zone"></td>
+        <td x-text="room.shades?.zones"></td>
         <td>
           <span class="icon icon-edit_16" @click="showEditRoom(room.device)"></span>
           <span class="icon icon-delete_16" @click="deleteRoom(room.device)"></span>
