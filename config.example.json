@@ -34,6 +34,7 @@
       "roomId": "space-id-report-issues"
     }
   },
+  "siteFilter": ["NYC1-", "ATL-"],
   "devices": [
     {
       "device": "WZS2547K012",

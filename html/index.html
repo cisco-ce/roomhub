@@ -44,6 +44,18 @@
     <input id="filter-events" placeholder="Filter events" @input="filterEvents" />
     <input id="heartbeat" type="checkbox" @change="getEvents" />
     <label for="heartbeat">Show heart beats</label>
+    <div class="site-list"
+      x-show="config.siteFilter"
+    >
+      Sites:
+      <template x-for="site in config.siteFilter || []">
+        <button
+          x-text="site"
+          @click="$('#filter-events').value = site;filterEvents();"
+        ></button>
+      </template>
+    </div>
+
     <table id="room-events">
       <tbody>
         <tr>
