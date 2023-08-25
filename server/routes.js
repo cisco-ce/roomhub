@@ -23,6 +23,16 @@ const macro = {
 };
 
 
+function whoAmI(request) {
+  const header = request.get('Authorization');
+  if (!header) return false;
+
+  const b64 = header?.split(' ')?.pop() || '';
+  const decoded = new Buffer(b64, 'base64').toString('ascii');
+  const name = decoded.split(':')?.shift();
+  return name;
+}
+
 const auth = users => basicAuth({
   users,
   challenge: true,
@@ -43,6 +53,11 @@ function jsonBack(res, object, code) {
 function createRoutes(app, db) {
   app.get('/api/test', auth(macro), (req, res) => {
     jsonBack(res, { test: 'hello' });
+  });
+
+  app.get('/api/whoami', auth(macro), (req, res) => {
+    const name = whoAmI(req);
+    jsonBack(res, { name });
   });
 
   // Save a configuration
