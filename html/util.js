@@ -32,6 +32,19 @@ const Util = {
     }
   },
 
+  async fetchWhoAmI() {
+    try {
+      const res = await fetch('/api/whoami');
+      if (res.ok) {
+        return await res.json();
+      }
+      return false;
+    }
+    catch {
+      return false;
+    }
+  },
+
   async loadConfig() {
     try {
       const json = await fetch('/api/config');

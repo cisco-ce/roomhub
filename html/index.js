@@ -3,15 +3,23 @@ const $$ = s => Array.from(document.querySelectorAll(s));
 const pollInterval = 3000;
 
 const dataModel = {
-  pages: { about: 'About', config: 'Config', log: 'Log', docs: 'Docs' },
+  pages: { about: 'About' },
   page: 'about',
   logEvents: [],
   filteredEvents: [],
   currentEvent: null,
   config: {},
+  user: false,
 
   async init() {
-    this.config = await Util.loadConfig();
+    this.user = await Util.fetchWhoAmI();
+    if (this.user?.name === 'admin') {
+      this.pages = { about: 'About', config: 'Config', log: 'Log', docs: 'Docs' };
+      this.config = await Util.loadConfig();
+    }
+    else {
+      this.pages = { about: 'About', log: 'Log', docs: 'Docs' };
+    }
   },
 
   async setPage(page) {
