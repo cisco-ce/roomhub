@@ -3,7 +3,7 @@ const $$ = s => Array.from(document.querySelectorAll(s));
 const pollInterval = 3000;
 
 const dataModel = {
-  pages: { about: 'About' },
+  pages: { about: 'About', config: 'Config', log: 'Log', docs: 'Docs' },
   page: 'about',
   logEvents: [],
   filteredEvents: [],
@@ -13,13 +13,7 @@ const dataModel = {
 
   async init() {
     this.user = await Util.fetchWhoAmI();
-    if (this.user?.name === 'admin') {
-      this.pages = { about: 'About', config: 'Config', log: 'Log', docs: 'Docs' };
-      this.config = await Util.loadConfig();
-    }
-    else {
-      this.pages = { about: 'About', log: 'Log', docs: 'Docs' };
-    }
+    this.config = await Util.loadConfig();
   },
 
   async setPage(page) {
@@ -28,6 +22,10 @@ const dataModel = {
     if (page === 'config') {
       this.config = await Util.loadConfig();
     }
+  },
+
+  isAdmin() {
+    return this.user?.name === 'admin';
   },
 
   saveConfig() {

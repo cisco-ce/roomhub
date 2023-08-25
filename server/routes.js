@@ -68,9 +68,15 @@ function createRoutes(app, db) {
   });
 
   // Fetch a configuration
-  app.get('/api/config', auth(admin), (req, res) => {
+  app.get('/api/config', auth(readonly), (req, res) => {
     const { config } = ConfigServer;
-    jsonBack(res, config);
+
+    // if not admin, only return room/device mapping, not gateway secrets
+    const user = whoAmI(req);
+    const isAdmin = user === 'admin';
+    const cfg = isAdmin ? config : { devices: config.devices };
+
+    jsonBack(res, cfg);
   });
 
   // Receive command (eg adjust light, from a cisco device)

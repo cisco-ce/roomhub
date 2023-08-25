@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="./">
   <title>Room Hub</title>
 </head>
-<body x-data="dataModel">
+<body x-data="dataModel" :class="isAdmin() ? 'admin' : 'readonly'">
 
   <header>
     <h1>webex</h1>
@@ -86,7 +86,7 @@
       disabled
     ></textarea>
 
-    <details>
+    <details x-show="isAdmin()">
       <summary>Advanced...</summary>
       Manually inject message:
       <textarea class="inject">
@@ -107,7 +107,7 @@
         <th>Light type</th>
         <th>Light zone</th>
         <th>Shade zone</th>
-        <th>Actions</th>
+        <th x-show="isAdmin()">Actions</th>
       </tr>
       <template x-for="room in rooms">
       <tr>
@@ -116,7 +116,7 @@
         <td x-text="room.lights?.type"></td>
         <td x-text="room.lights?.zone"></td>
         <td x-text="room.shades?.zones"></td>
-        <td>
+        <td x-show="isAdmin()">
           <span class="icon icon-edit_16" @click="showEditRoom(room.device)"></span>
           <span class="icon icon-delete_16" @click="deleteRoom(room.device)"></span>
         </td>
@@ -124,12 +124,12 @@
       </template>
     </table>
 
-    <button @click="showEditRoom()" class="primary">Add room...</button>
+    <button @click="showEditRoom()" x-show="isAdmin()" class="primary">Add room...</button>
     <div>
       💡 Tip: Restart macro on device after changing room configuration to update the user interface on the video device.
     </div>
 
-    <details>
+    <details x-show="isAdmin()">
       <summary>
         Advanced...
       </summary>
