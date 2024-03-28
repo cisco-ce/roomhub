@@ -1,6 +1,7 @@
 const ConfigServer = require('./config-server');
 const Logger = require('./logger');
 const lightsIgor = require('./drivers/lights-igor');
+const lightsMht = require('./drivers/lights-mht');
 const lightsMolex = require('./drivers/lights-molex');
 const lightsHue = require('./drivers/lights-hue');
 const shades = require('./drivers/shades');
@@ -8,7 +9,6 @@ const reportIssue = require('./drivers/report-issue');
 const fake = require('./drivers/fake-devices/');
 
 function routeCommand(command, answer) {
-  console.log(command);
   try {
     _routeCommand(command, answer);
   }
@@ -37,6 +37,7 @@ function _routeCommand(command, answer) {
   }
 
   const device = config.devices?.find(d => d.device === command.device);
+ 
   if (!device) {
     console.warn('unknown device', command.device);
     log.response = { status: 400, ok: false, text: 'Unknown device' };
@@ -51,6 +52,9 @@ function _routeCommand(command, answer) {
 
     if (type === 'igor') {
       lightsIgor(command, answer);
+    }
+    else if (type === 'mht') {
+      lightsMht(command, answer);
     }
     else if (type === 'molex') {
       lightsMolex(command, answer);

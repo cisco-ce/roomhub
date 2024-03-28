@@ -3,6 +3,13 @@
     "gateway": "http://igorlaksdjfklsdf.com",
     "key": "123456789"
   },
+  "lightsMht": {
+    "Inx1": {
+      "gateway": "http://inx1.mhtlighting.com/",
+      "apiKey" : "AIS01",
+      "apiSecret": "test@123"
+    }
+  },
   "lightsMolex": {
     "host": "http://molex.com",
     "projectId": "c8973ea6-9a40-437c-87ac-xxx",
@@ -28,6 +35,15 @@
           "01",
           "20"
         ]
+      }
+    },
+    {
+      "device": "Cube_1",
+      "room": "Local-room1",
+      "lights": {
+        "type": "mht",
+        "zone": "38",
+        "gateway": "Inx1"
       }
     }
   ]
