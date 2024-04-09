@@ -12,4 +12,12 @@ async function testIgor() {
   // console.log(Logger.logs[1].data.request);
 }
 
-testIgor();
+async function testMht() {
+  try {
+    await routeCommand({ type: 'lights', level: 25, device: 'Cube_1' });
+  }
+  catch(e) {}
+}
+
+//testIgor();
+testMht();

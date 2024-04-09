@@ -19,6 +19,8 @@ The project requires that the customer has:
 These smart integrations are supported out of the box:
 
 * Igor light system
+* MHT / inspextor light system
+* MHT / inspextor Desk system
 * Molex light system
 * Philips Hue light system
 * Solartrac 4 shades
