@@ -2,14 +2,22 @@ const Logger = require('../../logger');
 const Config = require('../../config-server');
 
 function setShades(gateway, zone, level, device) {
-  const config = Config.current();
-  const settings = config.shadesSolartrac[gateway];
+  const settings = Config.current().shadesSolartrac?.[gateway];
   if (!settings) {
-    throw new Error
+    throw new Error('Gateway not found', settings);
   }
-  const host = settings?.host;
+  const { host, token } = settings;
   const url = `${host}?objtype=zone&objid=${zone}&objprop=pos&cmd=set&newval=${level}`;
-  return Logger.fetchAndLog({ url }, 'Set Solartrac shades', device);
+
+  const options = {
+    method: 'POST',
+    headers: {
+    'Authorization': 'Basic ' + token,
+    },
+  };
+
+  console.log('mecho shade', url, options);
+  return Logger.fetchAndLog({ url, options }, 'Set Mecho shades', device);
 }
 
 async function onCommand(command, answer) {
