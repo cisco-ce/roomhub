@@ -4,7 +4,7 @@
     <Order>3</Order>
     <PanelId>report-issue</PanelId>
     <Origin>local</Origin>
-    <Type>Statusbar</Type>
+    <Location>HomeScreen</Location>
     <Icon>Info</Icon>
     <Color>#FC5143</Color>
     <Name>Report Issue</Name>
