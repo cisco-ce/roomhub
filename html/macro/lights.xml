@@ -4,7 +4,7 @@
     <Order>1</Order>
     <PanelId>lights</PanelId>
     <Origin>local</Origin>
-    <Type>Statusbar</Type>
+    <Location>HomeScreen</Location>
     <Icon>Lightbulb</Icon>
     <Color>#CF7900</Color>
     <Name>Lights</Name>
