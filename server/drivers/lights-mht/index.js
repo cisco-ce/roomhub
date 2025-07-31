@@ -35,7 +35,7 @@ function authenticate(gateway,device) {
     throw new Error('Gateway not found', gateway);
   }
   
-  const path = `inxs/api/authenticate`;
+  const path = `api/authenticate`;
   const request = mhtRequest(gateway, path, 'POST', { username: settings?.apiKey, password : settings?.apiSecret });
   //console.log("Sending request ",request);
   return Logger.fetchAndLog(request, 'Authenticate', device);
@@ -43,7 +43,7 @@ function authenticate(gateway,device) {
 
 function changeMhtLightLevel(gateway, zone, level, token, device) {
   //console.log("device=",device);
-  const path = `inxs/api/channelControl`;
+  const path = `api/channelControl`;
   const request = mhtRequest(gateway, path, 'POST', { id_token: token, channelId : 0, targetType: 2, targetId: zone, command: 'DIM', dimLevel: level  });
   console.log("Sending request ",request);
   return Logger.fetchAndLog(request, 'Set MHT light', device);

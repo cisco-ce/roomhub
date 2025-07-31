@@ -51,6 +51,7 @@ The middle ware contains a simple admin UI so facility managers can setup the ma
 * Visit the URL of the docker image, it should show a basic admin page for the middle ware
 * You are now ready to setup your rooms
 
+
 ## Setting up a new room
 
 Once you have a Room Hub server running, you can configure the mappings between your smart building resources (lights, shades) to the video device.

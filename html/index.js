@@ -83,6 +83,7 @@ const dataModel = {
     const shadeZone = $('#shade-zone').value;
     const shadeGateway = $('#shade-gateway').value;
     const reportIssue = $('#report-issue-gateway').value;
+    const shadeType = $('#shade-type').value;
 
     const room = {
       device,
@@ -100,6 +101,7 @@ const dataModel = {
       room.shades = {
         zones: shadeZone.split(',').map(i => i.trim()),
         gateway: shadeGateway,
+        type:shadeType,
       };
     }
     if (reportIssue) {
@@ -138,6 +140,7 @@ const dataModel = {
       $('#light-zone').value = device.lights?.zone || '';
       $('#shade-zone').value = device.shades?.zones?.join(', ') || '';
       $('#shade-gateway').value = device.shades?.gateway || '';
+      $('#shade-type').value = device.shades?.type || '';
       $('#report-issue-gateway').value = device['reportIssue'] || '';
     }
     $('#serial-number').disabled = !!deviceId;

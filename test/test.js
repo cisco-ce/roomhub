@@ -14,7 +14,7 @@ async function testIgor() {
 
 async function testMht() {
   try {
-    await routeCommand({ type: 'lights', level: 25, device: 'Cube_1' });
+    await routeCommand({ type: 'shades', level: 25, device: 'Cube_1' });
   }
   catch(e) {}
 }

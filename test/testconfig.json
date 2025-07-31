@@ -44,6 +44,14 @@
         "type": "mht",
         "zone": "38",
         "gateway": "Inx1"
+      },
+      "shades": {
+        "zones": [
+          "01",
+          "20"
+        ],
+        "type": "mht",
+        "gateway": "Inx1"
       }
     }
   ]

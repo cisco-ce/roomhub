@@ -7,6 +7,7 @@ const lightsHue = require('./drivers/lights-hue');
 const shades = require('./drivers/shades');
 const reportIssue = require('./drivers/report-issue');
 const fake = require('./drivers/fake-devices/');
+const shadesMHT = require('./drivers/shades-mht');
 
 function routeCommand(command, answer) {
   try {
@@ -72,7 +73,13 @@ function _routeCommand(command, answer) {
     }
   }
   else if (command.type === 'shades') {
-    shades(command, answer);
+    const type = device?.shades?.type;
+    if (type === 'mht') {
+      shadesMHT(command, answer);
+    }else{
+      shades(command, answer);
+    }
+
   }
   else if (command.type === 'heartbeat') {
     answer(true);
